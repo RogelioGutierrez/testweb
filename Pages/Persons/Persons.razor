@@ -1,0 +1,60 @@
+﻿@page "/persons"
+@using ServerBlazorEF.Data
+@using ServerBlazorEF.Models
+@inject PersonService _personService
+<h1>Personas</h1>
+
+@if (persons == null)
+
+{
+    <p><em>Loading...</em></p>
+}
+
+else
+
+{
+    <table class='table table-hover'>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre(s)</th>
+                <th>Apellidos</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in persons)
+
+            {
+                <tr>
+                    <td>@item.PersonId</td>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                    <td><a class="btn btn-success btn-sm" href="/person/updel/@item.PersonId/edit">edit</a></td>
+                    <td><a class="btn btn-danger btn-sm" href="/person/updel/@item.PersonId/del">del</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    List<Person>? persons;
+
+
+
+    protected override async Task OnInitializedAsync()
+
+    {
+
+
+
+        persons = await _personService.GetAsync();
+
+
+
+    }
+
+}
